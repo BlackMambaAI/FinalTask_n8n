@@ -1,0 +1,140 @@
+{
+  "name": "Final task #1 chatbot",
+  "nodes": [
+    {
+      "parameters": {
+        "public": true,
+        "mode": "webhook",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "8c95759d-6efd-4c48-ac96-5802137a3cb2",
+      "name": "When chat message received",
+      "webhookId": "9f4f1094-36a9-4911-bb98-143e970dac84"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "=# ROLE:\nאתה סוכן של חברת רב-פס המאפשרת לתקף ולשלם באמצעות יישומון בתחבורה הציבורית בישראל\n\n# TASK:\nהמענה תמיד בעברית ובלשון זכר\nהמענה עבור תנאי השימוש ביישומון ומושגים הקשורים לכרטוס בתחבורה הציבורית\n\n# DETAILS:\nיש לך TOOLS שונים שתוכל לעבוד מולם ולקבל מהם מידע על מנת שתוכל לענות על השאלות של משתמש\n\n** MultiPass_Tool **\nתשתמש בכלי הזה כדי לקבל את המידע לגבי תנאי השימוש, מושגים בכרטוס ואופן השימוש\nאתה מחוייב לענות רק על שאלות שקשורות לנושאים אלו בלבד ובעבור רב-פס בלבד\nתמיד תענה בלשון רבים בזכר"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "e80f5aca-c37b-46c7-8cab-65defc95667a",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        80,
+        208
+      ],
+      "id": "83f6d5ee-ff6d-4847-97da-436979840bca",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "O5VCI4ezXsihCR6d",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "contextWindowLength": 15
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        224,
+        208
+      ],
+      "id": "62a3293e-9c00-4ab9-88b5-c341e6e6c713",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "url": "=https://raw.githubusercontent.com/BlackMambaAI/FinalTask_n8n/refs/heads/main/ravpass.txt",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequestTool",
+      "typeVersion": 4.2,
+      "position": [
+        368,
+        208
+      ],
+      "id": "814ca85d-aaca-4ad6-9bcf-add67fc6fca1",
+      "name": "MultiPass_Tool"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MultiPass_Tool": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "fa85f6e0-b67e-4a15-a212-4b33aaeb3824",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "25f58f88334ab8db15739a79c745fdb1d772249b6ddf9f0842640cfee1000a26"
+  },
+  "id": "pY79OBzgpYNUnh3e",
+  "tags": []
+}

@@ -5,12 +5,14 @@
       "parameters": {
         "public": true,
         "mode": "webhook",
-        "options": {}
+        "options": {
+          "allowedOrigins": "*"
+        }
       },
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.3,
       "position": [
-        0,
+        -128,
         0
       ],
       "id": "8c95759d-6efd-4c48-ac96-5802137a3cb2",
@@ -126,11 +128,11 @@
       ]
     }
   },
-  "active": false,
+  "active": true,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "fa85f6e0-b67e-4a15-a212-4b33aaeb3824",
+  "versionId": "404fb97b-0cee-4355-8286-05ba711f25d2",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "25f58f88334ab8db15739a79c745fdb1d772249b6ddf9f0842640cfee1000a26"

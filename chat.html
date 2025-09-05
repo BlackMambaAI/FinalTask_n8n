@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
+  <link rel="stylesheet" href="chat.css">
+  <title>Document</title>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script defer src="js/chat.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <form onsubmit="onSub(event)" class="col-lg-6 ">
+      <h4 class="text-end">שאל בני ונען</h4>
+      <input id="id_input" type="text" class="form-control text-end">
+      <div class="text-end mt-2">
+        <button class="btn btn-warning">שלח</button>
+      </div>
+<!-- <button class="mt-2">שלח</button> -->
+
+    </form>
+    <div id="id_div" class="border p-2 col-lg-6 mt-2" style="height: 350px;">
+
+    </div>
+  </div>
+</body>
+
+</html>

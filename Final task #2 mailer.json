@@ -1,0 +1,357 @@
+{
+  "name": "Final task #2 mailer",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Birthday greeting",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "To",
+              "placeholder": "Person to greet",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Gender",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Male"
+                  },
+                  {
+                    "option": "Female"
+                  }
+                ]
+              },
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "From",
+              "placeholder": "Greeter",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Subject",
+              "fieldType": "textarea",
+              "placeholder": "Type in beloved subject to greet",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Mail",
+              "placeholder": "Mail of the person to greet",
+              "requiredField": true
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.3,
+      "position": [
+        -672,
+        -32
+      ],
+      "id": "7da20cad-7022-4e0b-8394-e45bd94e4744",
+      "name": "On form submission",
+      "webhookId": "f3727c1c-88b3-4a0b-9496-bf711490d0a9"
+    },
+    {
+      "parameters": {
+        "operation": "create",
+        "base": {
+          "__rl": true,
+          "value": "appEvsqE1wUKrk1cS",
+          "mode": "list",
+          "cachedResultName": "Greetings",
+          "cachedResultUrl": "https://airtable.com/appEvsqE1wUKrk1cS"
+        },
+        "table": {
+          "__rl": true,
+          "value": "tblaUqOZqiEdwh6vH",
+          "mode": "list",
+          "cachedResultName": "AIGreetings",
+          "cachedResultUrl": "https://airtable.com/appEvsqE1wUKrk1cS/tblaUqOZqiEdwh6vH"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "To": "={{ $json.To }}",
+            "Gender": "={{ $json.Gender }}",
+            "From": "={{ $json.From }}",
+            "Subject": "={{ $json.Subject }}",
+            "Mail": "={{ $json.Mail }}",
+            "AIGreetings": "={{ $json.text }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "To",
+              "displayName": "To",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Gender",
+              "displayName": "Gender",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "From",
+              "displayName": "From",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Subject",
+              "displayName": "Subject",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "Mail",
+              "displayName": "Mail",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            },
+            {
+              "id": "AIGreetings",
+              "displayName": "AIGreetings",
+              "required": false,
+              "defaultMatch": false,
+              "canBeUsedToMatch": true,
+              "display": true,
+              "type": "string",
+              "readOnly": false,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.airtable",
+      "typeVersion": 2.1,
+      "position": [
+        64,
+        -48
+      ],
+      "id": "fc7cc1c4-2aaf-4ffa-9307-daef4886c6fc",
+      "name": "Create a record",
+      "credentials": {
+        "airtableTokenApi": {
+          "id": "kH0gtoAn3lexxRoY",
+          "name": "Airtable Personal Access Token account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=Greet",
+        "messages": {
+          "messageValues": [
+            {
+              "message": "=You are an agent who produces birthday greetings according to the requested theme: {{ $json.Subject }} .\nThe language of the greeting will be in Hebrew.\nThe greeting will be written in the gender of the recipient: {{ $json.Gender }}.\nThe greeting should be written in biblical style.\nThe length of the greeting will not exceed 5 sentences."
+            }
+          ]
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.7,
+      "position": [
+        -432,
+        64
+      ],
+      "id": "4a89517b-3fa9-4181-a0af-baab28c74f45",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        -576,
+        208
+      ],
+      "id": "7c1cb6b1-cb8c-4c1b-a1e4-e211a952a802",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "O5VCI4ezXsihCR6d",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combineBySql",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -160,
+        -128
+      ],
+      "id": "661ce5b3-c7be-421c-9cda-76f18be77ccc",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "subject": "=Happy birthday greetings about  {{ $json.fields.Subject }}",
+        "textContent": "=Happy birthday {{ $json.fields.To }}\n\n{{ $json.fields.From }} wrote greeting especially for you, about your beloved subject:\n{{ $json.fields.Subject }}!\n\n\n{{ $('Merge').item.json.text }}",
+        "sender": "biresm@gmail.com",
+        "receipients": "={{ $json.fields.Mail }}",
+        "additionalFields": {},
+        "requestOptions": {}
+      },
+      "type": "n8n-nodes-base.sendInBlue",
+      "typeVersion": 1,
+      "position": [
+        256,
+        16
+      ],
+      "id": "9581769f-46bc-4706-867b-69273f2bc0d5",
+      "name": "Send a transactional email",
+      "credentials": {
+        "sendInBlueApi": {
+          "id": "qSlpBl8E2a2mpqsT",
+          "name": "Brevo account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "completion",
+        "completionTitle": "The mail was sent successfully",
+        "completionMessage": "=Here is the greeting:\n{{ $('Create a record').item.json.fields.AIGreetings }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 2.3,
+      "position": [
+        464,
+        16
+      ],
+      "id": "433d8b30-79d9-4b41-8179-bf4d56796c35",
+      "name": "Form",
+      "webhookId": "7e356a5f-3c50-403d-a409-f4b85b251fb1"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Create a record",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a record": {
+      "main": [
+        [
+          {
+            "node": "Send a transactional email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a transactional email": {
+      "main": [
+        [
+          {
+            "node": "Form",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "b2f9f61f-e517-4380-a4ea-4f92d3c8385f",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "25f58f88334ab8db15739a79c745fdb1d772249b6ddf9f0842640cfee1000a26"
+  },
+  "id": "fNpRCMYGxi2XDqXO",
+  "tags": []
+}
